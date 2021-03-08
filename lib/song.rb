@@ -36,7 +36,7 @@ class Song
     def self.find_by_name(name_property)
         @@all.find do |song|
             song.name == name_property
-            song
+            
         end
     end
 
