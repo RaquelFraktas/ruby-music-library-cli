@@ -2,9 +2,10 @@ class Song
     attr_accessor :name, :artist, :genre
     @@all = []
 
-    def initialize(name, artist= nil)
+    def initialize(name, artist=nil, genre=nil)
         @name = name
-        @artist = artist
+        self.artist = artist if artist 
+        self.genre = genre if genre
         @@all << self
     end
 
@@ -24,6 +25,19 @@ class Song
        create_song = Song.new(create_song, artist)
        create_song.name = name
        create_song
+    end
+
+    def artist=(person)
+        @artist = person
+        artist.add_song(self)
+        
+    end
+
+    def self.find_by_name(name_property)
+        @@all.find do |song|
+            song.name == name_property
+            song
+        end
     end
 
 end
