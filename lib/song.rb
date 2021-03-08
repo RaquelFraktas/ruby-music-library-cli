@@ -1,3 +1,5 @@
+require 'pry'
+
 class Song
     attr_accessor :name, :artist, :genre
     @@all = []
@@ -6,7 +8,7 @@ class Song
         @name = name
         self.artist = artist if artist 
         self.genre = genre if genre
-        @@all << self
+        save
     end
 
     def self.all
@@ -18,13 +20,12 @@ class Song
     end
 
     def save
-        @@all << self
+         self.class.all << self
     end
 
     def self.create(create_song, artist=nil)
-       create_song = Song.new(create_song, artist)
-       create_song.name = name
-       create_song
+       created_song = Song.new(create_song, artist)
+       created_song
     end
 
     def artist=(person)
@@ -35,9 +36,13 @@ class Song
 
     def self.find_by_name(name_property)
         @@all.find do |song|
-            song.name == name_property
-            
+           song.name == name_property
         end
+    end
+
+    def self.find_or_create_by_name(name)
+        self.find_by_name(name) ? self.find_by_name(name) : self.create(name)
+
     end
 
 end
