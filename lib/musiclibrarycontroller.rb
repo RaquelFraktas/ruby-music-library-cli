@@ -34,4 +34,36 @@ class MusicLibraryController
         end
     end
 
+    def list_artists
+        counter = 1
+        sorted_artist_array = Artist.all.sort_by do |artist| 
+            artist.name
+        end
+        # binding.pry`
+            sorted_artist_array.each do |artist|
+            puts "#{counter}. #{artist.name}"
+            counter += 1
+        end
+    end
+
+    def list_genres
+        counter = 1
+        sorted_genre_array = Genre.all.sort_by do |genre| 
+            genre.name
+        end
+        # binding.pry`
+            sorted_genre_array.each do |genre|
+            puts "#{counter}. #{genre.name}"
+            counter += 1
+        end
+    end
+
+
+    def list_songs_by_artist
+        puts "Please enter the name of an artist:"
+        user_input = gets 
+        artist_found = find_by_name(user_input)
+   
+    end
+
 end
