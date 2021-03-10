@@ -17,9 +17,26 @@ class MusicLibraryController
         puts "To quit, type 'exit'."
         puts "What would you like to do?"
 
-        gets 
+        user_input= gets 
 
-        gets== "exit" ? return : call
+        case user_input
+        when "list songs"
+            self.list_songs
+          when "list artists"
+            self.list_artists
+          when "list genres"
+            self.list_genres
+          when "list artist"
+            self.list_songs_by_artist
+          when "list genre"
+            self.list_songs_by_genre
+          when "play song"
+            self.play_song
+          when "exit"
+            'exit'
+          else
+            call
+          end
     end
 
     def list_songs
@@ -27,7 +44,6 @@ class MusicLibraryController
         sorted_song_array = Song.all.sort_by do |song| 
             song.name
         end
-        # binding.pry
             sorted_song_array.each do |song|
             puts "#{counter}. #{song.artist.name} - #{song.name} - #{song.genre.name}"
             counter += 1
@@ -96,15 +112,26 @@ class MusicLibraryController
 
     end
 
+    def sort_songs
+        Song.all.sort_by do |song| 
+            song.name
+        end
+    end
+
     def play_song
         puts "Which song number would you like to play?"
-        input= gets.strip
-        if song= Song.find_by_name(input)
-            puts "Playing #{song.name} by #{song.artist.name}"
-        end
-        
+        input = gets.strip
+        index = input.to_i-1
 
+        sorted_songs = sort_songs #we called the above method
+        index_is_valid = index > 0 && index < sorted_songs.length + 1
+        found_song = sorted_songs[index]
+
+        if found_song && index_is_valid
+            puts "Playing #{found_song.name} by #{found_song.artist.name}"
+        end
     end
+
 
 
 end
